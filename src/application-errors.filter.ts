@@ -16,8 +16,8 @@ export class ApplicationErrorsFilter
   catch(exception: ApplicationError, host: ArgumentsHost): Observable<any> {
     const error = this.getErrorObject(exception);
     if (host.getType() === 'http') {
-      const ctx = host.switchToHttp();
-      const response: Response = ctx.getResponse<Response>();
+      const httpArgumentsHost = host.switchToHttp();
+      const response = httpArgumentsHost.getResponse<Response>();
       response.status(error.statusCode).json(error);
       return new Observable<any>();
     } else if (host.getType() === 'rpc') {
